@@ -126,7 +126,6 @@ public class TransactionsController {
         return trans.stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList());
     }
 
-
     @Transactional
     @RequestMapping(path="type={transactionType}", method = RequestMethod.GET)
     public List<TransactionDTO> getTransactionsByType(@PathVariable("transactionType") Boolean type) throws Exception

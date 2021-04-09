@@ -75,7 +75,6 @@ public class SubscriptionsController {
         return editedSub;
     }
 
-
     @Transactional
     @RequestMapping(path="simpleUserId={simpleUserId}&transactionId={id}", method = RequestMethod.DELETE)
     public List<SubscriptionDTO> deleteTransaction(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id)
@@ -87,5 +86,55 @@ public class SubscriptionsController {
             subscriptionRepository.delete(Objects.requireNonNull(this.subscriptionRepository.findById(id).orElse(null)));
         }
         return newSubList.stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @RequestMapping(path="userId={userId}", method = RequestMethod.GET)
+    public List<SubscriptionDTO> getSubscriptionsForUser(@PathVariable("userId") Long id) throws Exception
+    {
+        SimpleUser myClient = this.simpleUserRepository.findById(id).orElse(null);
+        List<Subscription> subs = new ArrayList<>();
+
+        if(myClient !=null)
+        {
+            subs = this.simpleUserService.getSubscriptionsByUser(id);
+        }
+        else
+        {
+            throw new Exception("Client not found. :(");
+        }
+
+        return subs.stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList());
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<SubscriptionDTO> getSubscriptions()
+    {
+        Iterable<SimpleUser> clienti = this.simpleUserService.getAll();
+        List<Subscription> toate = new ArrayList<>();
+
+        clienti.forEach(x-> toate.addAll(x.getSubscriptions()));
+
+        return toate.stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @RequestMapping(path="subscriptionName={subName}", method = RequestMethod.GET)
+    public List<SubscriptionDTO> getTransactionsByName(@PathVariable("subName") String name) throws Exception
+    {
+        List<Subscription> subs = new ArrayList<>();
+        subs = subscriptionsService.getByName(name);
+
+        return subs.stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @RequestMapping(path="isPaid={paid}", method = RequestMethod.GET)
+    public List<SubscriptionDTO> getTransactionsByCategory(@PathVariable("paid") Boolean isPaid) throws Exception
+    {
+        List<Subscription> subs = new ArrayList<>();
+        subs = subscriptionsService.getPaid(isPaid);
+
+        return subs.stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList());
     }
 }
