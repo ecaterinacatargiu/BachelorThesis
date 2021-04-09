@@ -1,5 +1,6 @@
 package com.example.wally.domain.dto;
 
+import com.example.wally.domain.Subscription;
 import com.example.wally.domain.Transaction;
 
 import java.util.List;
@@ -12,8 +13,9 @@ public class SimpleUserDTO extends BaseEntityDTO {
     private String password;
     private Long balance;
     private List<TransactionDTO> transactionList;
+    private List<SubscriptionDTO> subscriptionList;
 
-    public SimpleUserDTO(String firstName, String lastName, String email, String password, Long balance, List<TransactionDTO> transactions)
+    public SimpleUserDTO(String firstName, String lastName, String email, String password, Long balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,6 +23,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
         this.password = password;
         this.balance = balance;
         this.transactionList = transactions;
+        this.subscriptionList = subscriptionList;
     }
 
     public SimpleUserDTO() {}
@@ -54,6 +57,10 @@ public class SimpleUserDTO extends BaseEntityDTO {
         return transactionList;
     }
 
+    public List<SubscriptionDTO> getSubscriptionList() {
+        return subscriptionList;
+    }
+
     @Override
     public void setId(Long id) {
         super.setId(id);
@@ -83,6 +90,10 @@ public class SimpleUserDTO extends BaseEntityDTO {
         this.transactionList = transactionList;
     }
 
+    public void setSubscriptionList(List<SubscriptionDTO> subscriptionList) {
+        this.subscriptionList = subscriptionList;
+    }
+
     @Override
     public String toString() {
         return "SimpleUserDTO{" +
@@ -92,6 +103,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
                 ", transactionList=" + transactionList +
+                ", subscriptionList=" + subscriptionList +
                 '}';
     }
 }

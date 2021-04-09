@@ -29,7 +29,11 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @JsonIgnore
     private List<Transaction> transactions;
 
-    public SimpleUser(String firstName, String lastName, String email, String password, Long balance, List<Transaction> transactions)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "simple_user")
+    @JsonIgnore
+    private List<Subscription> subscriptions;
+
+    public SimpleUser(String firstName, String lastName, String email, String password, Long balance, List<Transaction> transactions, List<Subscription> subscriptions)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,6 +41,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         this.password = password;
         this.balance = balance;
         this.transactions = transactions;
+        this.subscriptions = subscriptions;
     }
 
     public SimpleUser() {}
@@ -70,6 +75,10 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         return transactions;
     }
 
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
     @Override
     public void setID(Long ID) {
         super.setID(ID);
@@ -99,6 +108,9 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         this.transactions = transactions;
     }
 
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
 
     @Transactional
     public Transaction addTransaction(String description, Boolean type, String category, Long amount, Date transactionDate)
@@ -142,6 +154,49 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         return trans;
     }
 
+    @Transactional
+    public Subscription addSubscription(String subscriptionName, Long ampunt, Date paymentDate, Boolean paid)
+    {
+        Subscription newSubscription = new Subscription();
+        newSubscription.setSimple_user(this);
+        newSubscription.setSubscriptionName(subscriptionName);
+        newSubscription.setType(true);
+        newSubscription.setCategory("Extra");
+        newSubscription.setAmount(ampunt);
+        newSubscription.setPaymentDate(paymentDate);
+        newSubscription.setPaid(paid);
+
+        subscriptions.add(newSubscription);
+
+        return newSubscription;
+    }
+
+    @Transactional
+    public List<Subscription> removeSubscription(Long simpleUserId, Long subscriptionId)
+    {
+
+        subscriptions.removeIf(t -> t.getSimple_user().getID().equals(simpleUserId) && t.getId().equals(subscriptionId));
+
+        return subscriptions;
+    }
+
+    @Transactional
+    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Long amount, Date paymentDate, Boolean paid)
+    {
+        subscriptions = subscriptions.stream().filter(x -> x.getSimple_user() != simpleUser && !x.getId().equals(subscription.getId())).collect(Collectors.toList());
+
+        Subscription sub = new Subscription();
+        sub.setSubscriptionName(subscriptionName);
+        sub.setType(true);
+        sub.setCategory("Extra");
+        sub.setAmount(amount);
+        sub.setPaymentDate(paymentDate);
+        sub.setPaid(paid);
+
+        subscriptions.add(sub);
+
+        return sub;
+    }
 
     @Override
     public String toString() {
@@ -152,6 +207,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
                 ", transactions=" + transactions +
+                ", subscriptions=" + subscriptions +
                 '}';
     }
 
@@ -165,11 +221,12 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
                 Objects.equals(email, that.email) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(balance, that.balance) &&
-                Objects.equals(transactions, that.transactions);
+                Objects.equals(transactions, that.transactions) &&
+                Objects.equals(subscriptions, that.subscriptions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, password, balance, transactions);
+        return Objects.hash(firstName, lastName, email, password, balance, transactions, subscriptions);
     }
 }

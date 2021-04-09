@@ -1,51 +1,41 @@
-package com.example.wally.domain;
+package com.example.wally.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+public class SubscriptionDTO extends BaseEntityDTO {
 
-@Entity
-@Table(name = "subscriptions")
-public class Subscription {
 
-    @Id
-    @GeneratedValue
-    private Long Id;
+        private Long clientID;
+        private String subscriptionName;
+        private Boolean type;
+        private String category;
+        private Long amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="simple_user_id", referencedColumnName = "_id")
-    @JsonIgnore
-    private SimpleUser simple_user;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+        private Date paymentDate;
+        private Boolean paid;
 
-    private String subscriptionName;
-    private Boolean type;
-    private String category;
-    private Long amount;
-    private Date paymentDate;
-    private Boolean paid;
+        public SubscriptionDTO(String subscriptionName, Long amount, Date paymentDate, Boolean paid) {
+            this.subscriptionName = subscriptionName;
+            this.type = true;
+            this.category = "Extra";
+            this.amount = amount;
+            this.paymentDate = paymentDate;
+            this.paid = paid;
+        }
 
-    public Subscription(SimpleUser simpleUser, String subscriptionName, Long amount, Date paymentDate,  Boolean paid)
-    {
-        this.simple_user = simpleUser;
-        this.subscriptionName = subscriptionName;
-        this.type = true;
-        this.category ="Extra";
-        this.amount = amount;
-        this.paymentDate = paymentDate;
-        this.paid = paid;
-    }
+        public SubscriptionDTO() {}
 
-    public Subscription(){}
-
+    @Override
     public Long getId() {
-        return Id;
+        return super.getId();
     }
 
-    public SimpleUser getSimple_user() {
-        return simple_user;
+    public Long getClientID() {
+        return clientID;
     }
 
     public String getSubscriptionName() {
@@ -72,13 +62,13 @@ public class Subscription {
         return paid;
     }
 
+    @Override
     public void setId(Long id) {
-        Id = id;
+        super.setId(id);
     }
 
-    public void setSimple_user(SimpleUser simple_user) {
-        this.simple_user = simple_user;
-
+    public void setClientID(Long clientID) {
+        this.clientID = clientID;
     }
 
     public void setSubscriptionName(String subscriptionName) {
@@ -107,9 +97,8 @@ public class Subscription {
 
     @Override
     public String toString() {
-        return "Subscription{" +
-                "Id=" + Id +
-                ", simple_user=" + simple_user +
+        return "SubscriptionDTO{" +
+                "clientID=" + clientID +
                 ", subscriptionName='" + subscriptionName + '\'' +
                 ", type=" + type +
                 ", category='" + category + '\'' +
@@ -122,10 +111,9 @@ public class Subscription {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Subscription)) return false;
-        Subscription that = (Subscription) o;
-        return Objects.equals(Id, that.Id) &&
-                Objects.equals(simple_user, that.simple_user) &&
+        if (!(o instanceof SubscriptionDTO)) return false;
+        SubscriptionDTO that = (SubscriptionDTO) o;
+        return Objects.equals(clientID, that.clientID) &&
                 Objects.equals(subscriptionName, that.subscriptionName) &&
                 Objects.equals(type, that.type) &&
                 Objects.equals(category, that.category) &&
@@ -136,6 +124,6 @@ public class Subscription {
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, simple_user, subscriptionName, type, category, amount, paymentDate, paid);
+        return Objects.hash(clientID, subscriptionName, type, category, amount, paymentDate, paid);
     }
 }

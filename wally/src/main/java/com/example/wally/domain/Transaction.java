@@ -12,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="transaction")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Transaction implements Serializable {
 
     @Id
@@ -114,7 +115,15 @@ public class Transaction implements Serializable {
 
     @Override
     public String toString() {
-        return "";
+        return "Transaction{" +
+                "id=" + id +
+                ", simple_user=" + simple_user +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", category='" + category + '\'' +
+                ", amount=" + amount +
+                ", transactionDate=" + transactionDate +
+                '}';
     }
 
     @Override

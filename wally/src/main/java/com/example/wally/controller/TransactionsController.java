@@ -13,6 +13,7 @@ import com.example.wally.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,16 @@ public class TransactionsController {
         return addedTransation;
     }
 
+    @Scheduled(cron = "0 * * ? * *")
+    @Transactional
+    @RequestMapping(path = "/subscription", method = RequestMethod.GET)
+    public void paySubscription()
+    {
+        System.out.println("1");
+    }
+
+
+
     @Transactional
     @RequestMapping(path="simpleUserId={simpleUserId}&transactionId={id}")
     public Transaction editTransaction(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id, @RequestBody TransactionDTO transactionDTO) throws Exception {
@@ -76,7 +87,6 @@ public class TransactionsController {
 
         transactionRepository.delete(tran);
         transactionRepository.save(editedTrans);
-
 
         return editedTrans;
     }
@@ -147,4 +157,7 @@ public class TransactionsController {
 
         return toate.stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList());
     }
+
+
+
 }

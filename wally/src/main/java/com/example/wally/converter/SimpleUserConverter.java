@@ -15,8 +15,9 @@ public class SimpleUserConverter implements Converter<SimpleUser, SimpleUserDTO>
     public SimpleUser convertDtoToModel(SimpleUserDTO dto)
     {
         TransactionConverter tcov = new TransactionConverter();
+        SubscriptionConverter scov = new SubscriptionConverter();
         SimpleUser newSimpleUser = new SimpleUser(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPassword(), dto.getBalance(),
-                dto.getTransactionList().stream().map(tcov::convertDtoToModel).collect(Collectors.toList()));
+                dto.getTransactionList().stream().map(tcov::convertDtoToModel).collect(Collectors.toList()), dto.getSubscriptionList().stream().map(scov::convertDtoToModel).collect(Collectors.toList()));
         newSimpleUser.setID(dto.getId());
         return newSimpleUser;
     }
@@ -25,8 +26,9 @@ public class SimpleUserConverter implements Converter<SimpleUser, SimpleUserDTO>
     public SimpleUserDTO convertModelToDto(SimpleUser simpleUser)
     {
         TransactionConverter tcov = new TransactionConverter();
+        SubscriptionConverter scov = new SubscriptionConverter();
         SimpleUserDTO newSimpleUserDTO = new SimpleUserDTO(simpleUser.getFirstName(), simpleUser.getLastName(), simpleUser.getEmail(), simpleUser.getPassword(), simpleUser.getBalance(),
-                simpleUser.getTransactions().stream().map(tcov::convertModelToDto).collect(Collectors.toList()));
+                simpleUser.getTransactions().stream().map(tcov::convertModelToDto).collect(Collectors.toList()), simpleUser.getSubscriptions().stream().map(scov::convertModelToDto).collect(Collectors.toList()));
         newSimpleUserDTO.setId(simpleUser.getID());
         return newSimpleUserDTO;
     }

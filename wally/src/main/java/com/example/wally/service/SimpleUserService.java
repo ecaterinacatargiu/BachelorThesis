@@ -2,6 +2,7 @@ package com.example.wally.service;
 
 
 import com.example.wally.domain.SimpleUser;
+import com.example.wally.domain.Subscription;
 import com.example.wally.domain.Transaction;
 import com.example.wally.repository.SimpleUserRepository;
 import com.example.wally.repository.TransactionRepository;
@@ -145,7 +146,6 @@ public class SimpleUserService {
             throw new Exception("No such client to add transaction to or the amount of the transaction exceeds the limits of the user balance. :(");
         }
         return res;
-
     }
 
     @Transactional
@@ -163,7 +163,7 @@ public class SimpleUserService {
         return newTransList;
     }
 
-
+    @Transactional
     public Transaction updateTransaction(SimpleUser simpleUser, Transaction transaction, String description, Boolean type, String category, Long amount, Date transactionDate) throws Exception {
 
         Transaction res;
@@ -194,6 +194,7 @@ public class SimpleUserService {
         return res;
     }
 
+    @Transactional
     public List<Transaction> getTransactionsByUser(Long id) throws Exception {
         List<Transaction> transactions = new ArrayList<>();
         if(this.checkUserExists(id))
@@ -207,14 +208,56 @@ public class SimpleUserService {
         return transactions;
     }
 
-//    public Iterable<Transaction> getAllTransactionWithDescription(String description)
-//    {
-//        Iterable<SimpleUser> clienti = this.simpleUserRepository.findAllWithTransactionsAndBook();
-//        HashSet<Transaction> aleaBune = new HashSet<>();
-//        for (SimpleUser client : clienti) {
-//            client.getTransactions().stream().filter(x -> x.getDescription() == description).forEach(aleaBune::add);
-//        }
-//        return aleaBune;
-//    }
+    @Transactional
+    public List<Subscription> getSubscriptionsByUser(Long id) throws Exception {
+        List<Subscription> subscriptions = new ArrayList<>();
+        if(this.checkUserExists(id))
+        {
+            subscriptions =  this.getUserById(id).get().getSubscriptions();
+        }
+        else
+        {
+            throw new Exception("The user does not exist.");
+        }
+        return subscriptions;
+    }
 
+    @Transactional
+    public List<Subscription> removeSubscription(Long simpleUserId, Long subscriptionId)
+    {
+        List<Subscription> newSubList = this.simpleUserRepository.findById(simpleUserId).get().removeSubscription(simpleUserId, subscriptionId);
+
+        return newSubList;
+    }
+
+    @Transactional
+    public Subscription addSubscription(Long simpleUserID, String subscriptionName, Long amount, Date paymentDate, Boolean paid) throws Exception
+    {
+        Subscription res;
+        if(this.simpleUserRepository.findById(simpleUserID).isPresent())
+        {
+            res = this.simpleUserRepository.findById(simpleUserID).get().addSubscription(subscriptionName, amount, paymentDate, paid);
+        }
+        else
+        {
+            throw new Exception("No such client to add subscription to or the amount of the subscription exceeds the limits of the user balance. :(");
+        }
+        return res;
+    }
+
+
+    @Transactional
+    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Long amount, Date paymentDate, Boolean paid) throws Exception {
+
+        Subscription res;
+        if(this.simpleUserRepository.findById(simpleUser.getID()).isPresent())
+        {
+            res = this.simpleUserRepository.findById(simpleUser.getID()).get().updateSubscription(simpleUser, subscription, subscriptionName, amount, paymentDate, paid);
+        }
+        else
+        {
+            throw new Exception("No such entity to update the subscription to.");
+        }
+        return res;
+    }
 }
