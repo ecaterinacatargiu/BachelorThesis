@@ -59,16 +59,6 @@ public class TransactionsController {
         return addedTransation;
     }
 
-    @Scheduled(cron = "0 * * ? * *")
-    @Transactional
-    @RequestMapping(path = "/subscription", method = RequestMethod.GET)
-    public void paySubscription()
-    {
-        System.out.println("1");
-    }
-
-
-
     @Transactional
     @RequestMapping(path="simpleUserId={simpleUserId}&transactionId={id}")
     public Transaction editTransaction(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id, @RequestBody TransactionDTO transactionDTO) throws Exception {

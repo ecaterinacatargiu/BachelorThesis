@@ -4,6 +4,8 @@ package com.example.wally.domain;
 import com.example.wally.repository.TransactionRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +31,8 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @JsonIgnore
     private List<Transaction> transactions;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "simple_user")
+    @OneToMany(mappedBy = "simple_user")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private List<Subscription> subscriptions;
 
@@ -174,7 +177,6 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @Transactional
     public List<Subscription> removeSubscription(Long simpleUserId, Long subscriptionId)
     {
-
         subscriptions.removeIf(t -> t.getSimple_user().getID().equals(simpleUserId) && t.getId().equals(subscriptionId));
 
         return subscriptions;

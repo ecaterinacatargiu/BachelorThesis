@@ -34,4 +34,9 @@ public class SubscriptionsService {
         return subscriptionRepository.findPaid(paid);
     }
 
+    public List<Subscription> getAll()
+    {
+        return this.subscriptionRepository.findAll();
+    }
+
 }

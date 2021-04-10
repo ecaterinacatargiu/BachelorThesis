@@ -54,7 +54,7 @@ public class SubscriptionsController {
 
     @Transactional
     @RequestMapping(path="simpleUserId={simpleUserId}&subscriptionId={id}")
-    public Subscription editTransaction(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id, @RequestBody SubscriptionDTO subscriptionDTO) throws Exception {
+    public Subscription editSubscription(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id, @RequestBody SubscriptionDTO subscriptionDTO) throws Exception {
 
         SimpleUser user = simpleUserRepository.findById(simpleUserId)
                 .orElse(null);
@@ -71,13 +71,12 @@ public class SubscriptionsController {
         subscriptionRepository.delete(sub);
         subscriptionRepository.save(editedSub);
 
-
         return editedSub;
     }
 
     @Transactional
-    @RequestMapping(path="simpleUserId={simpleUserId}&transactionId={id}", method = RequestMethod.DELETE)
-    public List<SubscriptionDTO> deleteTransaction(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id)
+    @RequestMapping(path="simpleUserId={simpleUserId}&subscriptionId={id}", method = RequestMethod.DELETE)
+    public List<SubscriptionDTO> deleteSubscription(@PathVariable("simpleUserId") Long simpleUserId, @PathVariable("id") Long id)
     {
         List<Subscription> newSubList = new ArrayList<>();
         if(simpleUserService.checkUserExists(simpleUserId) && subscriptionsService.checkSubscriptionExists(id))
