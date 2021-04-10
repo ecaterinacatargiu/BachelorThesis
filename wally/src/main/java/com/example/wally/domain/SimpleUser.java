@@ -36,7 +36,12 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @JsonIgnore
     private List<Subscription> subscriptions;
 
-    public SimpleUser(String firstName, String lastName, String email, String password, Long balance, List<Transaction> transactions, List<Subscription> subscriptions)
+    @OneToMany(mappedBy = "simple_user")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    private List<Goal> goals;
+
+    public SimpleUser(String firstName, String lastName, String email, String password, Long balance, List<Transaction> transactions, List<Subscription> subscriptions, List<Goal> goals)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,6 +50,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         this.balance = balance;
         this.transactions = transactions;
         this.subscriptions = subscriptions;
+        this.goals = goals;
     }
 
     public SimpleUser() {}
@@ -82,6 +88,10 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         return subscriptions;
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
     @Override
     public void setID(Long ID) {
         super.setID(ID);
@@ -113,6 +123,10 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
 
     public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
     }
 
     @Transactional
@@ -210,6 +224,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
                 ", balance=" + balance +
                 ", transactions=" + transactions +
                 ", subscriptions=" + subscriptions +
+                ", goals=" + goals +
                 '}';
     }
 
@@ -224,11 +239,12 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
                 Objects.equals(password, that.password) &&
                 Objects.equals(balance, that.balance) &&
                 Objects.equals(transactions, that.transactions) &&
-                Objects.equals(subscriptions, that.subscriptions);
+                Objects.equals(subscriptions, that.subscriptions) &&
+                Objects.equals(goals, that.goals);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, password, balance, transactions, subscriptions);
+        return Objects.hash(firstName, lastName, email, password, balance, transactions, subscriptions, goals);
     }
 }

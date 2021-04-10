@@ -117,7 +117,7 @@ public class Transaction implements Serializable {
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", simple_user=" + simple_user +
+                ", simple_user=" + simple_user.toString() +
                 ", description='" + description + '\'' +
                 ", type=" + type +
                 ", category='" + category + '\'' +

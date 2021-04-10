@@ -109,7 +109,7 @@ public class Subscription {
     public String toString() {
         return "Subscription{" +
                 "Id=" + Id +
-                ", simple_user=" + simple_user +
+                ", simple_user=" + simple_user.toString() +
                 ", subscriptionName='" + subscriptionName + '\'' +
                 ", type=" + type +
                 ", category='" + category + '\'' +
