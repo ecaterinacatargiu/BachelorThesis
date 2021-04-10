@@ -10,7 +10,7 @@ public class GoalDTO extends BaseEntityDTO {
 
     private Long clientID;
     private String goalName;
-    private Long price;
+    private Double price;
     private Boolean type;
     private String category;
 
@@ -21,7 +21,7 @@ public class GoalDTO extends BaseEntityDTO {
     private Date deadline;
     private Boolean accomplished;
 
-    public GoalDTO(String goalName, Long price, Date startLine, Date deadline, Boolean accomplished)
+    public GoalDTO(String goalName, Double price, Date startLine, Date deadline, Boolean accomplished)
     {
         this.goalName = goalName;
         this.price = price;
@@ -47,7 +47,7 @@ public class GoalDTO extends BaseEntityDTO {
         return goalName;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -80,7 +80,7 @@ public class GoalDTO extends BaseEntityDTO {
         this.goalName = goalName;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

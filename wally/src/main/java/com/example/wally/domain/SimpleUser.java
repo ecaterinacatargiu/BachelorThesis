@@ -25,7 +25,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     private String lastName;
     private String email;
     private String password;
-    private Long balance;
+    private Double balance;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "simple_user")
     @JsonIgnore
@@ -41,7 +41,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @JsonIgnore
     private List<Goal> goals;
 
-    public SimpleUser(String firstName, String lastName, String email, String password, Long balance, List<Transaction> transactions, List<Subscription> subscriptions, List<Goal> goals)
+    public SimpleUser(String firstName, String lastName, String email, String password, Double balance, List<Transaction> transactions, List<Subscription> subscriptions, List<Goal> goals)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -76,7 +76,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         return super.getID();
     }
 
-    public Long getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
@@ -113,7 +113,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         this.password = password;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -130,7 +130,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Transaction addTransaction(String description, Boolean type, String category, Long amount, Date transactionDate)
+    public Transaction addTransaction(String description, Boolean type, String category, Double amount, Date transactionDate)
     {
         Transaction transaction = new Transaction();
         transaction.setSimpleUser(this);
@@ -155,7 +155,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Transaction updateTransaction(SimpleUser simpleUser, Transaction transaction, String description, Boolean type, String category, Long amount, Date transactionDate)
+    public Transaction updateTransaction(SimpleUser simpleUser, Transaction transaction, String description, Boolean type, String category, Double amount, Date transactionDate)
     {
         transactions = transactions.stream().filter(x -> x.getSimpleUser() != simpleUser && x.getID() != transaction.getID()).collect(Collectors.toList());
 
@@ -172,7 +172,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Subscription addSubscription(String subscriptionName, Long ampunt, Date paymentDate, Boolean paid)
+    public Subscription addSubscription(String subscriptionName, Double ampunt, Date paymentDate, Boolean paid)
     {
         Subscription newSubscription = new Subscription();
         newSubscription.setSimple_user(this);
@@ -197,7 +197,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Long amount, Date paymentDate, Boolean paid)
+    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Double amount, Date paymentDate, Boolean paid)
     {
         subscriptions = subscriptions.stream().filter(x -> x.getSimple_user() != simpleUser && !x.getId().equals(subscription.getId())).collect(Collectors.toList());
 
@@ -215,7 +215,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Goal addGoal(String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished)
+    public Goal addGoal(String goalName, Double price, Date startLine, Date deadLine, Boolean accomplished)
     {
         Goal newGoal = new Goal();
         newGoal.setSimpleUser(this);
@@ -241,7 +241,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     }
 
     @Transactional
-    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished)
+    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Double price, Date startLine, Date deadLine, Boolean accomplished)
     {
         goals = goals.stream().filter(x -> x.getSimpleUser() != simpleUser && !x.getId().equals(goal.getId())).collect(Collectors.toList());
 

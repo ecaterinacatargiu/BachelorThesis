@@ -8,12 +8,12 @@ public class SimpleUserDTO extends BaseEntityDTO {
     private String lastName;
     private String email;
     private String password;
-    private Long balance;
+    private Double balance;
     private List<TransactionDTO> transactionList;
     private List<SubscriptionDTO> subscriptionList;
     private List<GoalDTO> goals;
 
-    public SimpleUserDTO(String firstName, String lastName, String email, String password, Long balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList, List<GoalDTO> goals)
+    public SimpleUserDTO(String firstName, String lastName, String email, String password, Double balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList, List<GoalDTO> goals)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,7 +48,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
         return password;
     }
 
-    public Long getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
@@ -85,7 +85,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
         this.password = password;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

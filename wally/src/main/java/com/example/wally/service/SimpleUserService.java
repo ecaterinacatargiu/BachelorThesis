@@ -120,7 +120,7 @@ public class SimpleUserService {
 
 
     @Transactional
-    public Transaction addTransaction(Long simpleUserID, String description, Boolean type, String category, Long amount, Date transactionDate) throws Exception
+    public Transaction addTransaction(Long simpleUserID, String description, Boolean type, String category, Double amount, Date transactionDate) throws Exception
     {
         Transaction res;
         if(this.simpleUserRepository.findById(simpleUserID).isPresent())
@@ -165,7 +165,7 @@ public class SimpleUserService {
     }
 
     @Transactional
-    public Transaction updateTransaction(SimpleUser simpleUser, Transaction transaction, String description, Boolean type, String category, Long amount, Date transactionDate) throws Exception {
+    public Transaction updateTransaction(SimpleUser simpleUser, Transaction transaction, String description, Boolean type, String category, Double amount, Date transactionDate) throws Exception {
 
         Transaction res;
         if(this.simpleUserRepository.findById(simpleUser.getID()).isPresent())
@@ -232,7 +232,7 @@ public class SimpleUserService {
     }
 
     @Transactional
-    public Subscription addSubscription(Long simpleUserID, String subscriptionName, Long amount, Date paymentDate, Boolean paid) throws Exception
+    public Subscription addSubscription(Long simpleUserID, String subscriptionName, Double amount, Date paymentDate, Boolean paid) throws Exception
     {
         Subscription res;
         if(this.simpleUserRepository.findById(simpleUserID).isPresent())
@@ -248,7 +248,7 @@ public class SimpleUserService {
 
 
     @Transactional
-    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Long amount, Date paymentDate, Boolean paid) throws Exception {
+    public Subscription updateSubscription(SimpleUser simpleUser, Subscription subscription, String subscriptionName, Double amount, Date paymentDate, Boolean paid) throws Exception {
 
         Subscription res;
         if(this.simpleUserRepository.findById(simpleUser.getID()).isPresent())
@@ -263,7 +263,7 @@ public class SimpleUserService {
     }
 
     @Transactional
-    public Goal addGoal(Long simpleUserID, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished) throws Exception
+    public Goal addGoal(Long simpleUserID, String goalName, Double price, Date startLine, Date deadLine, Boolean accomplished) throws Exception
     {
         Goal res;
         if(this.simpleUserRepository.findById(simpleUserID).isPresent())
@@ -286,7 +286,7 @@ public class SimpleUserService {
     }
 
     @Transactional
-    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished) throws Exception {
+    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Double price, Date startLine, Date deadLine, Boolean accomplished) throws Exception {
 
         Goal res;
         if(this.simpleUserRepository.findById(simpleUser.getID()).isPresent())

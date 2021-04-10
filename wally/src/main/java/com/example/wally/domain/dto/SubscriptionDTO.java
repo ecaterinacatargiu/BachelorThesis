@@ -11,13 +11,13 @@ public class SubscriptionDTO extends BaseEntityDTO {
         private String subscriptionName;
         private Boolean type;
         private String category;
-        private Long amount;
+        private Double amount;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         private Date paymentDate;
         private Boolean paid;
 
-        public SubscriptionDTO(String subscriptionName, Long amount, Date paymentDate, Boolean paid) {
+        public SubscriptionDTO(String subscriptionName, Double amount, Date paymentDate, Boolean paid) {
             this.subscriptionName = subscriptionName;
             this.type = true;
             this.category = "Extra";
@@ -49,7 +49,7 @@ public class SubscriptionDTO extends BaseEntityDTO {
         return category;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -82,7 +82,7 @@ public class SubscriptionDTO extends BaseEntityDTO {
         this.category = category;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

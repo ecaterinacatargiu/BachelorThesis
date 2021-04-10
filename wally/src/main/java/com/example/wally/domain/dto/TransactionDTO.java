@@ -14,12 +14,12 @@ public class TransactionDTO extends BaseEntityDTO{
     private String description;
     private Boolean type;
     private String category;
-    private Long amount;
+    private Double amount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date transactionDate;
 
-    public TransactionDTO(String description, Boolean type, String category, Long amount, Date transactionDate) {
+    public TransactionDTO(String description, Boolean type, String category, Double amount, Date transactionDate) {
 
         this.description = description;
         this.type = type;
@@ -52,7 +52,7 @@ public class TransactionDTO extends BaseEntityDTO{
         return category;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -81,7 +81,7 @@ public class TransactionDTO extends BaseEntityDTO{
         this.category = category;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

@@ -23,11 +23,11 @@ public class Subscription {
     private String subscriptionName;
     private Boolean type;
     private String category;
-    private Long amount;
+    private Double amount;
     private Date paymentDate;
     private Boolean paid;
 
-    public Subscription(SimpleUser simpleUser, String subscriptionName, Long amount, Date paymentDate,  Boolean paid)
+    public Subscription(SimpleUser simpleUser, String subscriptionName, Double amount, Date paymentDate,  Boolean paid)
     {
         this.simple_user = simpleUser;
         this.subscriptionName = subscriptionName;
@@ -60,7 +60,7 @@ public class Subscription {
         return category;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -93,7 +93,7 @@ public class Subscription {
         this.category = category;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

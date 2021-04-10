@@ -2,25 +2,27 @@ package com.example.wally.controller;
 
 import com.example.wally.converter.TransactionConverter;
 import com.example.wally.domain.Transaction;
+import com.example.wally.repository.SimpleUserRepository;
+import com.example.wally.repository.TransactionRepository;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.persistence.Access;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +30,15 @@ import java.util.regex.Pattern;
 @RequestMapping("upload")
 public class FileUploadOCRController {
 
-    TransactionsController transactionsController;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String uploadFileDoOCR(@RequestParam("file") MultipartFile file) throws IOException, TesseractException {
+    @Autowired
+    SimpleUserRepository simpleUserRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    @RequestMapping(path = "simpleUserId={simpleUserId}", method = RequestMethod.POST)
+    public String uploadFileDoOCR(@PathVariable("simpleUserId") Long simpleUserId, @RequestParam("file") MultipartFile file) throws IOException, TesseractException {
 
         byte[] bytes = file.getBytes();
         Path path = Paths.get("D:\\Licenta\\Application\\Backend\\BachelorThesis\\wally\\resources\\" + file.getOriginalFilename());
@@ -43,6 +50,8 @@ public class FileUploadOCRController {
         Tesseract tesseract = new Tesseract();
         tesseract.setDatapath("D:\\Licenta\\Application\\Backend\\BachelorThesis\\wally\\tessdata");
 
+        Date now = new Date();
+
         try {
             imageString = tesseract.doOCR(convFile);
 
@@ -53,6 +62,18 @@ public class FileUploadOCRController {
                 String totalu = matcher.group(0).split(" ")[1];
                 Double totalSum = Double.parseDouble(totalu);
 
+                Transaction newTransaction = new Transaction();
+
+                newTransaction.setSimpleUser(this.simpleUserRepository.findById(simpleUserId).get());
+                newTransaction.setDescription("Receipt");
+                newTransaction.setType(true);
+                newTransaction.setCategory("Shopping");
+                newTransaction.setAmount(totalSum);
+                newTransaction.setTransactionDate(now);
+
+                this.simpleUserRepository.findById(simpleUserId).get().getTransactions().add(newTransaction);
+
+                this.transactionRepository.save(newTransaction);
             }
             else
             {

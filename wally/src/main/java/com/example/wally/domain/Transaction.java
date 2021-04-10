@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 @Entity
 @Table(name="transaction")
@@ -28,10 +29,10 @@ public class Transaction implements Serializable {
     private String description;
     private Boolean type;
     private String category;
-    private Long amount;
+    private Double amount;
     private Date transactionDate;
 
-    public Transaction(SimpleUser simpleUser, String description, Boolean type, String category, Long amount, Date transactionDate)
+    public Transaction(SimpleUser simpleUser, String description, Boolean type, String category, Double amount, Date transactionDate)
     {
         this.simple_user = simpleUser;
         this.description = description;
@@ -77,7 +78,7 @@ public class Transaction implements Serializable {
         return category;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -105,7 +106,7 @@ public class Transaction implements Serializable {
         this.category = category;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

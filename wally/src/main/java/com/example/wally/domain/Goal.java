@@ -21,7 +21,7 @@ public class Goal {
     private SimpleUser simple_user;
 
     private String goalName;
-    private Long price;
+    private Double price;
     private Boolean type;
     private String category;
     private Date startLine;
@@ -29,10 +29,11 @@ public class Goal {
 
     private Boolean accomplished;
 
-    public Goal(SimpleUser simpleUser, String goalName, Long price, Date startLine, Date deadline, Boolean accomplished)
+    public Goal(SimpleUser simpleUser, String goalName, Double price, Date startLine, Date deadline, Boolean accomplished)
     {
         this.simple_user = simpleUser;
         this.goalName = goalName;
+        this.price = price;
         this.type = true;
         this.category = "Wishlist";
         this.startLine = startLine;
@@ -62,7 +63,7 @@ public class Goal {
         return category;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -86,7 +87,7 @@ public class Goal {
         this.goalName = goalName;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
