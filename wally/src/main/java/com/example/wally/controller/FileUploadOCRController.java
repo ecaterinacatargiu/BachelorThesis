@@ -4,6 +4,7 @@ import com.example.wally.converter.TransactionConverter;
 import com.example.wally.domain.Transaction;
 import com.example.wally.repository.SimpleUserRepository;
 import com.example.wally.repository.TransactionRepository;
+import com.example.wally.service.SimpleUserService;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -30,12 +31,11 @@ import java.util.regex.Pattern;
 @RequestMapping("upload")
 public class FileUploadOCRController {
 
-
     @Autowired
     SimpleUserRepository simpleUserRepository;
 
     @Autowired
-    TransactionRepository transactionRepository;
+    SimpleUserService simpleUserService;
 
     @RequestMapping(path = "simpleUserId={simpleUserId}", method = RequestMethod.POST)
     public String uploadFileDoOCR(@PathVariable("simpleUserId") Long simpleUserId, @RequestParam("file") MultipartFile file) throws IOException, TesseractException {
@@ -61,19 +61,9 @@ public class FileUploadOCRController {
             {
                 String totalu = matcher.group(0).split(" ")[1];
                 Double totalSum = Double.parseDouble(totalu);
+                System.out.println(totalSum);
 
-                Transaction newTransaction = new Transaction();
-
-                newTransaction.setSimpleUser(this.simpleUserRepository.findById(simpleUserId).get());
-                newTransaction.setDescription("Receipt");
-                newTransaction.setType(true);
-                newTransaction.setCategory("Shopping");
-                newTransaction.setAmount(totalSum);
-                newTransaction.setTransactionDate(now);
-
-                this.simpleUserRepository.findById(simpleUserId).get().getTransactions().add(newTransaction);
-
-                this.transactionRepository.save(newTransaction);
+               // this.simpleUserService.addTransaction(this.simpleUserRepository.findById(simpleUserId).get().getID(), "Receipt", true, "Shopping", totalSum, now);
             }
             else
             {
