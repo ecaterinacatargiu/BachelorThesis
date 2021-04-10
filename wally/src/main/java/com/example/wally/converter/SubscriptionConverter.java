@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubscriptionConverter implements Converter<Subscription, SubscriptionDTO>{
 
-
-
     @Autowired
     SimpleUserRepository simpleUserRepository;
 
@@ -28,5 +26,6 @@ public class SubscriptionConverter implements Converter<Subscription, Subscripti
         SubscriptionDTO newSub = new SubscriptionDTO(subscription.getSubscriptionName(), subscription.getAmount(), subscription.getPaymentDate(), subscription.getPaid());
         newSub.setId(subscription.getId());
         newSub.setClientID(subscription.getSimple_user().getID());
-        return newSub;    }
+        return newSub;
+    }
 }

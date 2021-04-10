@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class SubscriptionDTO extends BaseEntityDTO {
 
-
         private Long clientID;
         private String subscriptionName;
         private Boolean type;

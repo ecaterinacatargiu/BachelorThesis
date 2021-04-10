@@ -1,38 +1,31 @@
-package com.example.wally.domain;
+package com.example.wally.domain.dto;
 
+import com.example.wally.domain.Goal;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "goals")
-public class Goal {
+public class GoalDTO extends BaseEntityDTO {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="simple_user_id", referencedColumnName = "_id")
-    @JsonIgnore
-    private SimpleUser simple_user;
-
+    private Long clientID;
     private String goalName;
     private Long price;
     private Boolean type;
     private String category;
-    private Date startLine;
-    private Date deadline;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date startLine;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date deadline;
     private Boolean accomplished;
 
-    public Goal(SimpleUser simpleUser, String goalName, Long price, Date startLine, Date deadline, Boolean accomplished)
+    public GoalDTO(String goalName, Long price, Date startLine, Date deadline, Boolean accomplished)
     {
-        this.simple_user = simpleUser;
         this.goalName = goalName;
+        this.price = price;
         this.type = true;
         this.category = "Wishlist";
         this.startLine = startLine;
@@ -40,18 +33,23 @@ public class Goal {
         this.accomplished = accomplished;
     }
 
-    public Goal() {}
+    public GoalDTO() {}
 
+    @Override
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
-    public SimpleUser getSimpleUser() {
-        return simple_user;
+    public Long getClientID() {
+        return clientID;
     }
 
     public String getGoalName() {
         return goalName;
+    }
+
+    public Long getPrice() {
+        return price;
     }
 
     public Boolean getType() {
@@ -60,10 +58,6 @@ public class Goal {
 
     public String getCategory() {
         return category;
-    }
-
-    public Long getPrice() {
-        return price;
     }
 
     public Date getStartLine() {
@@ -78,8 +72,9 @@ public class Goal {
         return accomplished;
     }
 
+    @Override
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public void setGoalName(String goalName) {
@@ -90,16 +85,16 @@ public class Goal {
         this.price = price;
     }
 
+    public void setClientID(Long clientID) {
+        this.clientID = clientID;
+    }
+
     public void setType(Boolean type) {
         this.type = type;
     }
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setSimpleUser(SimpleUser simpleUser) {
-        this.simple_user = simpleUser;
     }
 
     public void setStartLine(Date startLine) {
@@ -116,37 +111,35 @@ public class Goal {
 
     @Override
     public String toString() {
-        return "Goal{" +
-                "id=" + id +
-                ", simpleUser=" + simple_user.toString() +
+        return "GoalDTO{" +
+                "clientID=" + clientID +
                 ", goalName='" + goalName + '\'' +
                 ", price=" + price +
                 ", type=" + type +
                 ", category='" + category + '\'' +
                 ", startLine=" + startLine +
                 ", deadline=" + deadline +
-                ", accomplished" + accomplished +
+                ", accomplished=" + accomplished +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Goal)) return false;
-        Goal goal = (Goal) o;
-        return Objects.equals(id, goal.id) &&
-                Objects.equals(simple_user, goal.simple_user) &&
-                Objects.equals(goalName, goal.goalName) &&
-                Objects.equals(price, goal.price) &&
-                Objects.equals(type, goal.type) &&
-                Objects.equals(category, goal.category) &&
-                Objects.equals(startLine, goal.startLine) &&
-                Objects.equals(deadline, goal.deadline) &&
-                Objects.equals(accomplished, goal.accomplished);
+        if (!(o instanceof GoalDTO)) return false;
+        GoalDTO goalDTO = (GoalDTO) o;
+        return Objects.equals(clientID, goalDTO.clientID) &&
+                Objects.equals(goalName, goalDTO.goalName) &&
+                Objects.equals(price, goalDTO.price) &&
+                Objects.equals(type, goalDTO.type) &&
+                Objects.equals(category, goalDTO.category) &&
+                Objects.equals(startLine, goalDTO.startLine) &&
+                Objects.equals(deadline, goalDTO.deadline) &&
+                Objects.equals(accomplished, goalDTO.accomplished);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, simple_user, goalName, price, type, category, startLine, deadline, accomplished);
+        return Objects.hash(clientID, goalName, price, type, category, startLine, deadline, accomplished);
     }
 }

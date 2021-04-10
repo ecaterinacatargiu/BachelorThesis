@@ -1,5 +1,6 @@
 package com.example.wally.converter;
 
+import com.example.wally.domain.Goal;
 import com.example.wally.domain.SimpleUser;
 import com.example.wally.domain.Transaction;
 import com.example.wally.domain.dto.SimpleUserDTO;
@@ -16,8 +17,9 @@ public class SimpleUserConverter implements Converter<SimpleUser, SimpleUserDTO>
     {
         TransactionConverter tcov = new TransactionConverter();
         SubscriptionConverter scov = new SubscriptionConverter();
+        GoalConverter gcov = new GoalConverter();
         SimpleUser newSimpleUser = new SimpleUser(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPassword(), dto.getBalance(),
-                dto.getTransactionList().stream().map(tcov::convertDtoToModel).collect(Collectors.toList()), dto.getSubscriptionList().stream().map(scov::convertDtoToModel).collect(Collectors.toList()));
+                dto.getTransactionList().stream().map(tcov::convertDtoToModel).collect(Collectors.toList()), dto.getSubscriptionList().stream().map(scov::convertDtoToModel).collect(Collectors.toList()), dto.getGoals().stream().map(gcov::convertDtoToModel).collect(Collectors.toList()));
         newSimpleUser.setID(dto.getId());
         return newSimpleUser;
     }
@@ -27,8 +29,9 @@ public class SimpleUserConverter implements Converter<SimpleUser, SimpleUserDTO>
     {
         TransactionConverter tcov = new TransactionConverter();
         SubscriptionConverter scov = new SubscriptionConverter();
+        GoalConverter gcov = new GoalConverter();
         SimpleUserDTO newSimpleUserDTO = new SimpleUserDTO(simpleUser.getFirstName(), simpleUser.getLastName(), simpleUser.getEmail(), simpleUser.getPassword(), simpleUser.getBalance(),
-                simpleUser.getTransactions().stream().map(tcov::convertModelToDto).collect(Collectors.toList()), simpleUser.getSubscriptions().stream().map(scov::convertModelToDto).collect(Collectors.toList()));
+                simpleUser.getTransactions().stream().map(tcov::convertModelToDto).collect(Collectors.toList()), simpleUser.getSubscriptions().stream().map(scov::convertModelToDto).collect(Collectors.toList()), simpleUser.getGoals().stream().map(gcov::convertModelToDto).collect(Collectors.toList()));
         newSimpleUserDTO.setId(simpleUser.getID());
         return newSimpleUserDTO;
     }

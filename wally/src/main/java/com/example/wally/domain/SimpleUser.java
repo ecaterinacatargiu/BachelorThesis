@@ -214,6 +214,51 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         return sub;
     }
 
+    @Transactional
+    public Goal addGoal(String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished)
+    {
+        Goal newGoal = new Goal();
+        newGoal.setSimpleUser(this);
+        newGoal.setGoalName(goalName);
+        newGoal.setType(true);
+        newGoal.setCategory("Extra");
+        newGoal.setPrice(price);
+        newGoal.setStartLine(startLine);
+        newGoal.setDeadline(deadLine);
+        newGoal.setAccomplished(accomplished);
+
+        goals.add(newGoal);
+
+        return newGoal;
+    }
+
+    @Transactional
+    public List<Goal> removeGoal(Long simpleUserId, Long goalId)
+    {
+        goals.removeIf(t -> t.getSimpleUser().getID().equals(simpleUserId) && t.getId().equals(goalId));
+
+        return goals;
+    }
+
+    @Transactional
+    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished)
+    {
+        goals = goals.stream().filter(x -> x.getSimpleUser() != simpleUser && !x.getId().equals(goal.getId())).collect(Collectors.toList());
+
+        Goal newGoal = new Goal();
+        newGoal.setGoalName(goalName);
+        newGoal.setType(true);
+        newGoal.setCategory("Wishlist");
+        newGoal.setPrice(price);
+        newGoal.setStartLine(startLine);
+        newGoal.setDeadline(deadLine);
+        newGoal.setAccomplished(accomplished);
+
+        goals.add(newGoal);
+
+        return newGoal;
+    }
+
     @Override
     public String toString() {
         return "SimpleUser{" +

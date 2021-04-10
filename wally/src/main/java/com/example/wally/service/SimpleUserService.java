@@ -1,6 +1,7 @@
 package com.example.wally.service;
 
 
+import com.example.wally.domain.Goal;
 import com.example.wally.domain.SimpleUser;
 import com.example.wally.domain.Subscription;
 import com.example.wally.domain.Transaction;
@@ -256,8 +257,61 @@ public class SimpleUserService {
         }
         else
         {
-            throw new Exception("No such entity to update the subscription to.");
+            throw new Exception("No such entity to update the goal to.");
         }
         return res;
     }
+
+    @Transactional
+    public Goal addGoal(Long simpleUserID, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished) throws Exception
+    {
+        Goal res;
+        if(this.simpleUserRepository.findById(simpleUserID).isPresent())
+        {
+            res = this.simpleUserRepository.findById(simpleUserID).get().addGoal(goalName, price, startLine, deadLine, accomplished);
+        }
+        else
+        {
+            throw new Exception("No such client to add goal to :(");
+        }
+        return res;
+    }
+
+    @Transactional
+    public List<Goal> removeGoal(Long simpleUserId, Long goalId)
+    {
+        List<Goal> newGoalList = this.simpleUserRepository.findById(simpleUserId).get().removeGoal(simpleUserId, goalId);
+
+        return newGoalList;
+    }
+
+    @Transactional
+    public Goal updateGoal(SimpleUser simpleUser, Goal goal, String goalName, Long price, Date startLine, Date deadLine, Boolean accomplished) throws Exception {
+
+        Goal res;
+        if(this.simpleUserRepository.findById(simpleUser.getID()).isPresent())
+        {
+            res = this.simpleUserRepository.findById(simpleUser.getID()).get().updateGoal(simpleUser, goal, goalName, price, startLine, deadLine, accomplished);
+        }
+        else
+        {
+            throw new Exception("No such entity to update the goal to.");
+        }
+        return res;
+    }
+
+    @Transactional
+    public List<Goal> getGoalsByUser(Long id) throws Exception {
+        List<Goal> goals = new ArrayList<>();
+        if(this.checkUserExists(id))
+        {
+            goals =  this.getUserById(id).get().getGoals();
+        }
+        else
+        {
+            throw new Exception("The user does not exist.");
+        }
+        return goals;
+    }
+
 }

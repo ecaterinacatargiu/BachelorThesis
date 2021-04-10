@@ -14,8 +14,9 @@ public class SimpleUserDTO extends BaseEntityDTO {
     private Long balance;
     private List<TransactionDTO> transactionList;
     private List<SubscriptionDTO> subscriptionList;
+    private List<GoalDTO> goals;
 
-    public SimpleUserDTO(String firstName, String lastName, String email, String password, Long balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList)
+    public SimpleUserDTO(String firstName, String lastName, String email, String password, Long balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList, List<GoalDTO> goals)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,6 +25,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
         this.balance = balance;
         this.transactionList = transactions;
         this.subscriptionList = subscriptionList;
+        this.goals = goals;
     }
 
     public SimpleUserDTO() {}
@@ -61,6 +63,10 @@ public class SimpleUserDTO extends BaseEntityDTO {
         return subscriptionList;
     }
 
+    public List<GoalDTO> getGoals() {
+        return goals;
+    }
+
     @Override
     public void setId(Long id) {
         super.setId(id);
@@ -94,6 +100,10 @@ public class SimpleUserDTO extends BaseEntityDTO {
         this.subscriptionList = subscriptionList;
     }
 
+    public void setGoals(List<GoalDTO> goals) {
+        this.goals = goals;
+    }
+
     @Override
     public String toString() {
         return "SimpleUserDTO{" +
@@ -104,6 +114,7 @@ public class SimpleUserDTO extends BaseEntityDTO {
                 ", balance=" + balance +
                 ", transactionList=" + transactionList +
                 ", subscriptionList=" + subscriptionList +
+                ", goals=" + goals +
                 '}';
     }
 }

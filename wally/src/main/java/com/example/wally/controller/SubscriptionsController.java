@@ -119,7 +119,7 @@ public class SubscriptionsController {
 
     @Transactional
     @RequestMapping(path="subscriptionName={subName}", method = RequestMethod.GET)
-    public List<SubscriptionDTO> getTransactionsByName(@PathVariable("subName") String name) throws Exception
+    public List<SubscriptionDTO> getSubscriptionsByName(@PathVariable("subName") String name) throws Exception
     {
         List<Subscription> subs = new ArrayList<>();
         subs = subscriptionsService.getByName(name);
@@ -129,7 +129,7 @@ public class SubscriptionsController {
 
     @Transactional
     @RequestMapping(path="isPaid={paid}", method = RequestMethod.GET)
-    public List<SubscriptionDTO> getTransactionsByCategory(@PathVariable("paid") Boolean isPaid) throws Exception
+    public List<SubscriptionDTO> getSubscriptionPaid(@PathVariable("paid") Boolean isPaid) throws Exception
     {
         List<Subscription> subs = new ArrayList<>();
         subs = subscriptionsService.getPaid(isPaid);

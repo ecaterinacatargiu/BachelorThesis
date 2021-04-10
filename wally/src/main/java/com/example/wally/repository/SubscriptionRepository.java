@@ -14,6 +14,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     @Query("SELECT sub FROM Subscription sub WHERE sub.subscriptionName=?1")
     List<Subscription> findByName(String subName);
 
-    @Query("SELECT tr FROM Transaction tr WHERE tr.category=?1")
+    @Query("SELECT sub FROM Subscription sub WHERE sub.paid=?1")
     List<Subscription> findPaid(Boolean paid);
 }
