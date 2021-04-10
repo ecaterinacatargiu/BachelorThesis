@@ -1,8 +1,5 @@
 package com.example.wally.domain.dto;
 
-import com.example.wally.domain.Subscription;
-import com.example.wally.domain.Transaction;
-
 import java.util.List;
 
 public class SimpleUserDTO extends BaseEntityDTO {

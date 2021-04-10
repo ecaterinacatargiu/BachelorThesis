@@ -1,6 +1,5 @@
 package com.example.wally.domain.dto;
 
-import com.example.wally.domain.Goal;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;

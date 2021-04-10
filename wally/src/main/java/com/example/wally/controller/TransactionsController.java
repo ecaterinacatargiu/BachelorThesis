@@ -5,7 +5,6 @@ import com.example.wally.converter.TransactionConverter;
 import com.example.wally.domain.SimpleUser;
 import com.example.wally.domain.Transaction;
 import com.example.wally.domain.dto.TransactionDTO;
-import com.example.wally.domain.dto.TransactionListDTO;
 import com.example.wally.repository.SimpleUserRepository;
 import com.example.wally.repository.TransactionRepository;
 import com.example.wally.service.SimpleUserService;
@@ -13,16 +12,13 @@ import com.example.wally.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("system")

@@ -1,18 +1,13 @@
 package com.example.wally.controller;
 
 import com.example.wally.converter.GoalConverter;
-import com.example.wally.converter.SubscriptionConverter;
 import com.example.wally.domain.Goal;
 import com.example.wally.domain.SimpleUser;
-import com.example.wally.domain.Subscription;
 import com.example.wally.domain.dto.GoalDTO;
-import com.example.wally.domain.dto.SubscriptionDTO;
 import com.example.wally.repository.GoalRepository;
 import com.example.wally.repository.SimpleUserRepository;
-import com.example.wally.repository.SubscriptionRepository;
 import com.example.wally.service.GoalService;
 import com.example.wally.service.SimpleUserService;
-import com.example.wally.service.SubscriptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
 package com.example.wally.domain.dto;
 
-import com.example.wally.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;

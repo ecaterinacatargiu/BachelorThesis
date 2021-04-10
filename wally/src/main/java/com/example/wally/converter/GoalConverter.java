@@ -1,9 +1,7 @@
 package com.example.wally.converter;
 
 import com.example.wally.domain.Goal;
-import com.example.wally.domain.Subscription;
 import com.example.wally.domain.dto.GoalDTO;
-import com.example.wally.domain.dto.SubscriptionDTO;
 import com.example.wally.repository.SimpleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

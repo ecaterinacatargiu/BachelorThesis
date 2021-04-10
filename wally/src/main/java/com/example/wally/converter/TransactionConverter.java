@@ -1,14 +1,10 @@
 package com.example.wally.converter;
 
-
-import com.example.wally.domain.SimpleUser;
 import com.example.wally.domain.Transaction;
 import com.example.wally.domain.dto.TransactionDTO;
 import com.example.wally.repository.SimpleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class TransactionConverter implements Converter<Transaction, TransactionDTO> {

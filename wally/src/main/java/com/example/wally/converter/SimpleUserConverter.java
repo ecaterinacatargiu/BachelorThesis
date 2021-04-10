@@ -1,13 +1,10 @@
 package com.example.wally.converter;
 
-import com.example.wally.domain.Goal;
 import com.example.wally.domain.SimpleUser;
-import com.example.wally.domain.Transaction;
 import com.example.wally.domain.dto.SimpleUserDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class SimpleUserConverter implements Converter<SimpleUser, SimpleUserDTO> {
