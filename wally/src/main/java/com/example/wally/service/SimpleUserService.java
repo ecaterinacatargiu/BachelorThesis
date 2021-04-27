@@ -9,6 +9,8 @@ import com.example.wally.repository.SimpleUserRepository;
 import com.example.wally.repository.TransactionRepository;
 import javassist.Loader;
 import org.apache.naming.TransactionRef;
+import org.aspectj.util.IStructureModel;
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,21 @@ public class SimpleUserService {
         return simpleUserRepository.findById(id);
     }
 
+    public Optional<SimpleUser> getUserByEmail(String email)
+    {
+        return simpleUserRepository.findByEmail(email);
+    }
+
+    public SimpleUser lookUpUser(String email)
+    {
+        return simpleUserRepository.findByEmail(email).get();
+    }
+
+    public boolean chechUserByEmail(String email)
+    {
+        return simpleUserRepository.findByEmail(email).isPresent();
+    }
+
     public boolean checkUserExists(Long id)
     {
         return simpleUserRepository.findById(id).isPresent();
@@ -58,6 +75,20 @@ public class SimpleUserService {
         {
             simpleUserRepository.delete(simpleUserRepository.findById(id).get());
         }
+    }
+
+    public SimpleUser getUserAfterValidation(String email)
+    {
+        if(null == email)
+        {
+            throw new ServiceException("[ERROR] Null email address given");
+        }
+        Optional<SimpleUser> opUser = this.simpleUserRepository.findByEmail(email);
+        if(opUser.isEmpty())
+        {
+            throw new ServiceException("[ERROR] No such user exists.");
+        }
+        return opUser.get();
     }
 
     public void editSimpleUser(SimpleUser simpleUser)

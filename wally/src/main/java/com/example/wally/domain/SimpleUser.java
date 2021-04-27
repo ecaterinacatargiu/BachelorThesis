@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -128,6 +129,7 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
     }
+
 
     @Transactional
     public Transaction addTransaction(String description, Boolean type, String category, Double amount, Date transactionDate)
@@ -291,5 +293,9 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, email, password, balance, transactions, subscriptions, goals);
+    }
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }

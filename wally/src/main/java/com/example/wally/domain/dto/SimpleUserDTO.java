@@ -1,6 +1,14 @@
 package com.example.wally.domain.dto;
 
+import com.example.wally.converter.GoalConverter;
+import com.example.wally.converter.SubscriptionConverter;
+import com.example.wally.converter.TransactionConverter;
+import com.example.wally.domain.SimpleUser;
+import com.example.wally.domain.Subscription;
+
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SimpleUserDTO extends BaseEntityDTO {
 
@@ -12,6 +20,10 @@ public class SimpleUserDTO extends BaseEntityDTO {
     private List<TransactionDTO> transactionList;
     private List<SubscriptionDTO> subscriptionList;
     private List<GoalDTO> goals;
+
+    private TransactionConverter transactionConverter;
+    private SubscriptionConverter subscriptionConverter;
+    private GoalConverter goalConverter;
 
     public SimpleUserDTO(String firstName, String lastName, String email, String password, Double balance, List<TransactionDTO> transactions, List<SubscriptionDTO> subscriptionList, List<GoalDTO> goals)
     {
@@ -100,6 +112,19 @@ public class SimpleUserDTO extends BaseEntityDTO {
     public void setGoals(List<GoalDTO> goals) {
         this.goals = goals;
     }
+
+    public SimpleUserDTO toDTO(final SimpleUser user)
+    {
+        return new SimpleUserDTO(user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getBalance(),
+                user.getTransactions().stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList()),
+                user.getSubscriptions().stream().map(subscriptionConverter::convertModelToDto).collect(Collectors.toList()),
+                user.getGoals().stream().map(goalConverter::convertModelToDto).collect(Collectors.toList()));
+    }
+
 
     @Override
     public String toString() {
