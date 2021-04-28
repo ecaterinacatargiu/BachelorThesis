@@ -51,7 +51,7 @@ public class SimpleUserService {
 
     public SimpleUser lookUpUser(String email)
     {
-        return simpleUserRepository.findByEmail(email).get();
+        return simpleUserRepository.findByEmail(email).orElse(null);
     }
 
     public boolean chechUserByEmail(String email)
@@ -66,6 +66,22 @@ public class SimpleUserService {
 
     public void addSimpleUser(SimpleUser simpleUser)
     {
+        if(simpleUser.getTransactions() == null)
+        {
+            simpleUser.setTransactions(Collections.emptyList());
+        }
+        if(simpleUser.getSubscriptions() == null)
+        {
+            simpleUser.setSubscriptions(Collections.emptyList());
+        }
+        if(simpleUser.getGoals() == null)
+        {
+            simpleUser.setGoals(Collections.emptyList());
+        }
+        if(simpleUser.getBalance() == null)
+        {
+            simpleUser.setBalance(0.0);
+        }
         simpleUserRepository.save(simpleUser);
     }
 
