@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.crypto.dsig.SignatureMethod;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SimpleUserService {
@@ -54,6 +55,16 @@ public class SimpleUserService {
         return simpleUserRepository.findByEmail(email).orElse(null);
     }
 
+    public Long getIdByEmail(String email)
+    {
+        return simpleUserRepository.getIdByEmail(email);
+    }
+
+    public Double getBalanceForUser(Long id)
+    {
+        return simpleUserRepository.getBalanceForUser(id);
+    }
+
     public boolean chechUserByEmail(String email)
     {
         return simpleUserRepository.findByEmail(email).isPresent();
@@ -84,6 +95,16 @@ public class SimpleUserService {
         }
         simpleUserRepository.save(simpleUser);
     }
+
+    public Double getTotalIncome(Long id)
+    {
+        return simpleUserRepository.findById(id).get().getTotalIncome();
+    }
+    public Double getTotalExpense(Long id)
+    {
+        return simpleUserRepository.findById(id).get().getTotalExpense();
+    }
+
 
     public void deleteSimpleUser(Long id)
     {
@@ -248,6 +269,20 @@ public class SimpleUserService {
         if(this.checkUserExists(id))
         {
             transactions =  this.getUserById(id).get().getTransactions();
+        }
+        else
+        {
+            throw new Exception("The user does not exist.");
+        }
+        return transactions;
+    }
+
+    @Transactional
+    public List<Transaction> getExpensesByUser(Long id) throws Exception {
+        List<Transaction> transactions = new ArrayList<>();
+        if(this.checkUserExists(id))
+        {
+            transactions =  this.getUserById(id).get().getTransactions().stream().filter(transaction -> transaction.getType() == true).collect(Collectors.toList());
         }
         else
         {

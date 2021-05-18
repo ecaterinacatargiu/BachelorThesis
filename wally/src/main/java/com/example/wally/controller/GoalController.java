@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("goals")
+@CrossOrigin
 public class GoalController {
 
     @Autowired

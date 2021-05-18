@@ -17,5 +17,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     @Query("SELECT tr FROM Transaction tr WHERE tr.category=?1")
     List<Transaction> findByCategory(String category);
+
+    @Query("SELECT tr from Transaction tr where tr.simple_user.ID=?1 and tr.id=?2")
+    Transaction getTransaction(Long id, Long tid);
 }
 

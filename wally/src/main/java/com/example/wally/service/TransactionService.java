@@ -42,4 +42,5 @@ public class TransactionService {
         return transactionRepository.findByCategory(category);
     }
 
+    public Transaction getTransaction(Long id, Long tid) { return transactionRepository.getTransaction(id, tid);}
 }

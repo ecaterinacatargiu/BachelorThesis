@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("system")
+@CrossOrigin
 public class TransactionsController {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionsController.class);
@@ -101,6 +102,13 @@ public class TransactionsController {
          return newTransList.stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList());
     }
 
+    @Transactional
+    @RequestMapping(path = "simpleUserId={id}&transactionId={tid}", method = RequestMethod.GET)
+    public TransactionDTO getTransaction(@PathVariable("id") Long id, @PathVariable("tid") Long tid)
+    {
+        return transactionConverter.convertModelToDto(transactionService.getTransaction(id, tid));
+    }
+
 
     @Transactional
     @RequestMapping(path="userId={userId}", method = RequestMethod.GET)
@@ -119,6 +127,24 @@ public class TransactionsController {
         }
 
         return trans.stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList());
+    }
+
+    @RequestMapping(path = "/expenses/userId={id}", method = RequestMethod.GET)
+    public List<TransactionDTO> getExpensesForUser(@PathVariable("id") Long id) throws Exception {
+        SimpleUser myClient = this.simpleUserRepository.findById(id).orElse(null);
+        List<Transaction> trans = new ArrayList<>();
+
+        if(myClient !=null)
+        {
+            trans = this.simpleUserService.getExpensesByUser(id);
+        }
+        else
+        {
+            throw new Exception("Client not found. :(");
+        }
+
+        return trans.stream().map(transactionConverter::convertModelToDto).collect(Collectors.toList());
+
     }
 
     @Transactional

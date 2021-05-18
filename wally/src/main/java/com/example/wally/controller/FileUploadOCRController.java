@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("upload")
+@CrossOrigin
 public class FileUploadOCRController {
 
     @Autowired

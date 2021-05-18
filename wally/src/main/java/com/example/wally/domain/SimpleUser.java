@@ -28,6 +28,9 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
     private String password;
     private Double balance;
 
+    public static Double totalIncome = 0.0;
+    public static Double totalExpense = 0.0;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "simple_user")
     @JsonIgnore
     private List<Transaction> transactions;
@@ -130,6 +133,21 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         this.goals = goals;
     }
 
+    public static Double getTotalExpense() {
+        return totalExpense;
+    }
+
+    public static Double getTotalIncome() {
+        return totalIncome;
+    }
+
+    public static void setTotalExpense(Double totalExpense) {
+        SimpleUser.totalExpense = totalExpense;
+    }
+
+    public static void setTotalIncome(Double totalIncome) {
+        SimpleUser.totalIncome = totalIncome;
+    }
 
     @Transactional
     public Transaction addTransaction(String description, Boolean type, String category, Double amount, Date transactionDate)
@@ -142,6 +160,14 @@ public class SimpleUser extends BaseEntity<Long> implements Serializable {
         transaction.setAmount(amount);
         transaction.setTransactionDate(transactionDate);
 
+        if(type)
+        {
+            setTotalExpense(totalExpense +=amount);
+        }
+        else
+        {
+            setTotalIncome(totalIncome +=amount);
+        }
         transactions.add(transaction);
 
         return transaction;
